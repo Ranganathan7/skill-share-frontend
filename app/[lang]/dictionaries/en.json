@@ -1,0 +1,16 @@
+{
+  "labels": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "skillShare": "Skill Share",
+    "user": "User",
+    "provider": "Provider",
+    "email": "Email",
+    "password": "Password"
+  },
+  "actions": {
+    "loginAsUser": "Login as user",
+    "loginAsProvider": "Login as provider"
+  }
+}
