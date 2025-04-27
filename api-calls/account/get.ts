@@ -5,7 +5,7 @@ import { apiEndpoints } from "../endpoints"
 import { apiPostHandler } from "../api-handler"
 import useApiMutation from "@/lib/hooks/use-api-mutation"
 import { queryKeys } from "../query-keys"
-import { AccountRoles, AccountType } from "@/lib/enums"
+import { AccountRoles, AccountType, NatureOfWork, RateCurrency, SkillCategory } from "@/lib/enums"
 
 export type GetAccountRequest = {}
 
@@ -33,6 +33,15 @@ export type CompanyAccount = {
   address?: Address;
 };
 
+export type Skill = {
+  id: number;
+  category: SkillCategory;
+  experience: number;
+  natureOfWork: NatureOfWork;
+  hourlyRate: number;
+  rateCurrency: RateCurrency;
+};
+
 export type Account = {
   id: number;
   email: string;
@@ -40,6 +49,7 @@ export type Account = {
   type: AccountType;
   individualAccount?: IndividualAccount;
   companyAccount?: CompanyAccount;
+  skills?: Skill[];
 };
 
 

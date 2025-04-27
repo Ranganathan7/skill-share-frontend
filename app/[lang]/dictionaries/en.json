@@ -20,12 +20,15 @@
   "actions": {
     "loginAsUser": "Login as user",
     "loginAsProvider": "Login as provider",
-    "logout": "Logout"
+    "logout": "Logout",
+    "exploreTasks": "Explore Tasks",
+    "addTask": "Add Task"
   },
   "messages": {
     "invalidEmail": "Invalid email / Please enter email",
     "invalidPassword": "Invalid password / Please enter password",
     "loginSuccessful": "Login successful!",
-    "logoutSuccessful": "Logout successful!"
+    "logoutSuccessful": "Logout successful!",
+    "noTasksFound": "You don't have any tasks assigned yet."
   }
 }

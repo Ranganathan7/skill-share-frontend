@@ -27,10 +27,10 @@ export default function Layout({
     }
   }, []);
   return (
-    <div>
+    <div className="h-full w-full">
       <SidebarProvider>
         <AppSidebar />
-        <div>
+        <div className="h-full w-full">
           <SidebarTrigger />
           {children}
         </div>
