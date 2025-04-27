@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales, defaultLocale } from "./app/[lang]/dictionaries";
-import Cookies from "js-cookie";
 
 export const authCookieKey = 'skill-share-login-access-token'
 
@@ -14,12 +13,12 @@ export function middleware(request: NextRequest) {
   );
 
   if (pathnameHasLocale) {
+    const token = request.cookies.get(authCookieKey)
+
     // Skipping check for login page
     if (locales.some(locale => pathname.endsWith(`/${locale}/`) || pathname.endsWith(`/${locale}`))) {
       return NextResponse.next();
     }
-
-    const token = Cookies.get(authCookieKey)
 
     if (token) {
       return NextResponse.next()

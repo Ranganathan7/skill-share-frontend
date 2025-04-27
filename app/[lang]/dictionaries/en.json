@@ -16,5 +16,10 @@
   "actions": {
     "loginAsUser": "Login as user",
     "loginAsProvider": "Login as provider"
+  },
+  "messages": {
+    "invalidEmail": "Invalid email / Please enter email",
+    "invalidPassword": "Invalid password / Please enter password",
+    "loginSuccessful": "Login successful!"
   }
 }

@@ -1,12 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AccountRoles } from "@/lib/enums";
 import { Button } from "./ui/button";
 import { useDictionary } from "./providers/LanguageProvider";
+import { useAuthenticateAccount } from "@/api-calls/account/authenticate";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
+import { authCookieKey } from "@/middleware";
+import { useLocalizedRedirect } from "@/lib/hooks/localized-redirect";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   role: AccountRoles;
@@ -16,8 +23,48 @@ export const LoginForm = ({ role }: Props) => {
   const t = useDictionary();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const authenticateMutation = useAuthenticateAccount();
+  const router = useRouter();
+  const handleError = (title: string, message?: string) => {
+    toast.error(title, {
+      closeButton: true,
+      duration: 1500,
+      description: message,
+    });
+  };
+  const navigation = useLocalizedRedirect();
 
-  const handleFormSubmit = () => {};
+  useEffect(() => {
+    const alreadyLoggedIn = Cookies.get(authCookieKey);
+    if (alreadyLoggedIn) {
+      router.replace(navigation("dashboard"));
+    }
+  }, []);
+
+  const handleFormSubmit = () => {
+    if (!email) {
+      handleError(t.messages.invalidEmail);
+      return;
+    }
+    if (!password) {
+      handleError(t.messages.invalidPassword);
+      return;
+    }
+    authenticateMutation.mutate(
+      { email, password },
+      {
+        onSuccess: (res) => {
+          toast.success(t.messages.loginSuccessful, { duration: 1500 });
+          Cookies.set(authCookieKey, res.data.data.accessToken, { expires: 1 });
+          router.replace(navigation("dashboard"));
+        },
+        onError: (err) => {
+          console.log(err);
+          handleError(err.errorCode, err.description);
+        },
+      }
+    );
+  };
 
   return (
     <Card>
@@ -44,10 +91,16 @@ export const LoginForm = ({ role }: Props) => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleFormSubmit}>
+        <Button
+          onClick={handleFormSubmit}
+          disabled={authenticateMutation.isPending}
+        >
           {role === AccountRoles.PROVIDER
             ? t.actions.loginAsProvider
             : t.actions.loginAsUser}
+          {authenticateMutation.isPending && (
+            <Loader2 className="animate-spin" />
+          )}
         </Button>
       </CardFooter>
     </Card>

@@ -3,6 +3,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Locale, locales } from "./[lang]/dictionaries";
 import { QueryClientProviders } from "@/components/providers/QueryClientProvider";
+import { Toaster } from "@/components/ui/sonner";
+import StoreProvider from "@/components/providers/StoreProvider";
 
 // Font set across app
 const inter = Inter({ subsets: ["latin"] });
@@ -30,7 +32,10 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={inter.className}>
-        <QueryClientProviders>{children}</QueryClientProviders>
+        <StoreProvider>
+          <QueryClientProviders>{children}</QueryClientProviders>
+        </StoreProvider>
+        <Toaster />
       </body>
     </html>
   );
