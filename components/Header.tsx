@@ -22,6 +22,7 @@ import { clearAccountDetails } from "@/store/slices/account";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { authCookieKey } from "@/middleware";
+import { ToggleLanguage } from "./ToggleLanguage";
 
 export default function Header() {
   const t = useDictionary();
@@ -55,6 +56,7 @@ export default function Header() {
 
       <div className="flex items-center gap-4">
         <ToggleTheme />
+        <ToggleLanguage />
 
         {account.email && (
           <DropdownMenu>

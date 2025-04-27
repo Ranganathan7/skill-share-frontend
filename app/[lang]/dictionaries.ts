@@ -2,15 +2,16 @@ import en from "@/app/[lang]/dictionaries/en.json";
 
 // Types
 export type DictionaryType = typeof en;
-export type Locale = "en"; // Extend this if you add more locales
+export type Locale = "en" | "hi"; // Extend this if you add more locales
 
 // Constants
-export const locales: Locale[] = ["en"];
+export const locales: Locale[] = ["en", "hi"];
 export const defaultLocale: Locale = "en";
 
 // Dictionary loader
 const dictionaries: Record<Locale, () => Promise<DictionaryType>> = {
   en: () => import("./dictionaries/en.json").then((mod) => mod.default),
+  hi: () => import("./dictionaries/en.json").then((mod) => mod.default),
 };
 
 // Get dictionary
