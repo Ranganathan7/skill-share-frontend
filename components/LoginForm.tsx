@@ -14,6 +14,8 @@ import { authCookieKey } from "@/middleware";
 import { useLocalizedRedirect } from "@/lib/hooks/localized-redirect";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useAppDispatch } from "@/lib/hooks/redux-toolkit";
+import { setAuthorization } from "@/store/slices/headers";
 
 type Props = {
   role: AccountRoles;
@@ -32,11 +34,13 @@ export const LoginForm = ({ role }: Props) => {
       description: message,
     });
   };
+  const dispatch = useAppDispatch();
   const navigation = useLocalizedRedirect();
 
   useEffect(() => {
     const alreadyLoggedIn = Cookies.get(authCookieKey);
     if (alreadyLoggedIn) {
+      dispatch(setAuthorization(alreadyLoggedIn));
       router.replace(navigation("dashboard"));
     }
   }, []);
@@ -56,6 +60,7 @@ export const LoginForm = ({ role }: Props) => {
         onSuccess: (res) => {
           toast.success(t.messages.loginSuccessful, { duration: 1500 });
           Cookies.set(authCookieKey, res.data.data.accessToken, { expires: 1 });
+          dispatch(setAuthorization(res.data.data.accessToken));
           router.replace(navigation("dashboard"));
         },
         onError: (err) => {

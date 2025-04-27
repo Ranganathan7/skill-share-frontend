@@ -23,4 +23,5 @@ const headerSlice = createSlice({
   }
 })
 
+export const { setAuthorization, clearAuthorization } = headerSlice.actions;
 export default headerSlice.reducer;

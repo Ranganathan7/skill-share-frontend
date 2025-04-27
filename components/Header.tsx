@@ -13,17 +13,13 @@ import { ToggleTheme } from "./ToggleTheme";
 import { useDictionary } from "./providers/LanguageProvider";
 import Image from "next/image";
 import { useLocalizedRedirect } from "@/lib/hooks/localized-redirect";
+import { useAppSelector } from "@/lib/hooks/redux-toolkit";
+import { getAccountName } from "@/lib/utils";
 
-interface HeaderProps {
-  user?: {
-    name: string;
-    id: number;
-  };
-}
-
-export default function Header({ user }: HeaderProps) {
+export default function Header() {
   const t = useDictionary();
-  const navigate = useLocalizedRedirect();
+  const navigation = useLocalizedRedirect();
+  const account = useAppSelector((state) => state.account);
 
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b bg-background">
@@ -41,12 +37,11 @@ export default function Header({ user }: HeaderProps) {
       <div className="flex items-center gap-4">
         <ToggleTheme />
 
-        {user && (
+        {account.email && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="cursor-pointer">
-                <AvatarImage alt={user.name} />
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                <AvatarImage alt={getAccountName(account)} />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

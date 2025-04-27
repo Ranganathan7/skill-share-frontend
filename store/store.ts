@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import headerSlice from './slices/headers'
+import accountSlice from './slices/account'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       headers: headerSlice,
+      account: accountSlice,
     },
   })
 }
