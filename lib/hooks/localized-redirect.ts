@@ -1,3 +1,5 @@
+"use client";
+
 import { defaultLocale } from '@/app/[lang]/dictionaries';
 import { usePathname } from 'next/navigation';
 

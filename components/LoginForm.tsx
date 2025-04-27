@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,14 +36,6 @@ export const LoginForm = ({ role }: Props) => {
   };
   const dispatch = useAppDispatch();
   const navigation = useLocalizedRedirect();
-
-  useEffect(() => {
-    const alreadyLoggedIn = Cookies.get(authCookieKey);
-    if (alreadyLoggedIn) {
-      dispatch(setAuthorization(alreadyLoggedIn));
-      router.replace(navigation("dashboard"));
-    }
-  }, []);
 
   const handleFormSubmit = () => {
     if (!email) {

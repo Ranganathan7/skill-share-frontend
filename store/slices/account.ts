@@ -14,10 +14,10 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     setAccountDetails: (state, action: PayloadAction<Account>) => {
-      state = action.payload
+      return action.payload
     },
     clearAccountDetails: (state) => {
-      state = initialState
+      return initialState
     },
   }
 })
