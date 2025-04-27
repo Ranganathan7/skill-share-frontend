@@ -2,6 +2,7 @@
 
 import { LoginForm } from "@/components/LoginForm";
 import { useDictionary } from "@/components/providers/LanguageProvider";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AccountRoles } from "@/lib/enums";
 import Image from "next/image";
@@ -25,7 +26,7 @@ const LoginPage = () => {
 
         {/* Overlay */}
         <div className="relative z-10 text-center max-w-md">
-          <h1 className="text-4xl font-bold mb-4 drop-shadow-lg">
+          <h1 className="text-4xl font-bold mb-4 drop-shadow-lg text-black">
             {t.labels.welcomeText}
           </h1>
           <p className="text-lg text-primary">{t.labels.introText}</p>
@@ -37,7 +38,9 @@ const LoginPage = () => {
         <div className="w-full max-w-sm bg-card shadow-xl rounded-lg p-8 flex flex-col items-center gap-6">
           {/* Small Welcome Text */}
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-2">{t.labels.loginTitle}</h2>
+            <Label className="text-2xl font-bold mb-2">
+              {t.labels.loginTitle}
+            </Label>
             <p className="text-muted-foreground text-sm">
               {t.labels.loginSubtitle}
             </p>

@@ -1,40 +1,33 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales, defaultLocale } from "./app/[lang]/dictionaries";
-import { getServerSession } from "next-auth";
+import Cookies from "js-cookie";
 
-export async function middleware(request: NextRequest) {
+export const authCookieKey = 'skill-share-login-access-token'
+
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Ignore static files and API routes
-  if (
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/api") ||
-    /\.(.*)$/.test(pathname)
-  ) {
-    return NextResponse.next();
-  }
-
   // Check if URL already includes locale
-  const pathnameHasLocale = locales.filter(
+  const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )[0];
+  );
 
   if (pathnameHasLocale) {
-    // Skip authentication check for public pages (login - landing page)
-    if (pathname.endsWith(`/${pathnameHasLocale}/`) || pathname === `/${pathnameHasLocale}`) {
+    // Skipping check for login page
+    if (locales.some(locale => pathname.endsWith(`/${locale}/`) || pathname.endsWith(`/${locale}`))) {
       return NextResponse.next();
     }
 
-    // Get the session using next-auth's `getServerSession`
-    const session = await getServerSession();
+    const token = Cookies.get(authCookieKey)
 
-    // If no session, redirect to the login page
-    if (!session) {
-      return NextResponse.redirect(`/${pathnameHasLocale}`);
+    if (token) {
+      return NextResponse.next()
     }
 
-    return NextResponse.next();
+    // Redirect to default locale
+    request.nextUrl.pathname = `/${defaultLocale}`;
+    return NextResponse.redirect(request.nextUrl);
   }
 
   // Redirect to default locale

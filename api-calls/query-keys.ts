@@ -1,3 +1,4 @@
 export const queryKeys = {
-  getAccount: 'get-account'
+  getAccount: 'get-account',
+  authenticate: 'authenticate-account'
 }
