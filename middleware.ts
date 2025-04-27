@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales, defaultLocale } from "./app/[lang]/dictionaries";
+import { getServerSession } from "next-auth";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Ignore static files and API routes
@@ -15,11 +16,24 @@ export function middleware(request: NextRequest) {
   }
 
   // Check if URL already includes locale
-  const pathnameHasLocale = locales.some(
+  const pathnameHasLocale = locales.filter(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
+  )[0];
 
   if (pathnameHasLocale) {
+    // Skip authentication check for public pages (login - landing page)
+    if (pathname.endsWith(`/${pathnameHasLocale}/`) || pathname === `/${pathnameHasLocale}`) {
+      return NextResponse.next();
+    }
+
+    // Get the session using next-auth's `getServerSession`
+    const session = await getServerSession();
+
+    // If no session, redirect to the login page
+    if (!session) {
+      return NextResponse.redirect(`/${pathnameHasLocale}`);
+    }
+
     return NextResponse.next();
   }
 
