@@ -5,6 +5,13 @@ import { setAuthorization } from "@/store/slices/headers";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useAppDispatch } from "@/lib/hooks/redux-toolkit";
+import {
+  Sidebar,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 
 export default function Layout({
   children,
@@ -19,5 +26,15 @@ export default function Layout({
       dispatch(setAuthorization(alreadyLoggedIn));
     }
   }, []);
-  return <div>{children}</div>;
+  return (
+    <div>
+      <SidebarProvider>
+        <AppSidebar />
+        <div>
+          <SidebarTrigger />
+          {children}
+        </div>
+      </SidebarProvider>
+    </div>
+  );
 }

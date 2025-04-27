@@ -40,7 +40,8 @@ const page = () => {
       );
     }
   }, []);
-  return <div>page</div>;
+
+  return <div></div>;
 };
 
 export default page;
