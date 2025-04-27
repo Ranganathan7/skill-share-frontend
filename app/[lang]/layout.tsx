@@ -20,8 +20,14 @@ export default async function RootLayout({
         enableSystem
         disableTransitionOnChange
       >
-        <Header />
-        {children}
+        <div className="h-screen w-screen overflow-hidden">
+          <div>
+            <Header />
+          </div>
+          <div className="overflow-y-auto h-full w-fulll overflow-x-hidden">
+            {children}
+          </div>
+        </div>
       </ThemeProvider>
     </LanguageProvider>
   );

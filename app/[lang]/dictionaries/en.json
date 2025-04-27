@@ -7,7 +7,11 @@
     "user": "User",
     "provider": "Provider",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "welcomeText": "Showcase Your Skills, Unlock New Opportunities!",
+    "introText": "Join our marketplace to display your talents, connect with clients, and complete exciting tasks. Build your career one project at a time!",
+    "loginTitle": "Welcome Back!",
+    "loginSubtitle": "Sign in to access your account and start showcasing your skills / post tasks and more!!"
   },
   "actions": {
     "loginAsUser": "Login as user",
