@@ -1,3 +1,5 @@
+import { apiErrorCodes } from "./error-codes";
+
 export type ApiSuccessResponse<T> = {
   statusCode: number;
   requestId: string;
@@ -31,6 +33,20 @@ export class CustomApiException extends Error {
     this.requestId = errorResponse.requestId
     this.statusCode = errorResponse.statusCode
     this.timestamp = errorResponse.timestamp
+  }
+}
+
+export class CustomAxiosError extends CustomApiException {
+  constructor(requestId: string, statusCode: number) {
+    super({
+      statusCode,
+      requestId,
+      timestamp: new Date().toString(),
+      error: {
+        errorCode: apiErrorCodes.axiosError,
+        description: "An error occured while calling the API"
+      }
+    })
   }
 }
 
